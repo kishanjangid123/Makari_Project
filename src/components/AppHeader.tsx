@@ -12,7 +12,6 @@ const AppHeader = () => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "0 24px",
       }}
     >
       <Search placeholder="Search..." style={{ width: 300 }} />

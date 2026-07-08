@@ -7,17 +7,28 @@ import Dashboard from "./pages/Dashboard";
 import Setting from "./pages/Settting";
 import Reports from "./pages/Reports";
 import User from "./pages/User";
+import { useState } from "react";
 
 const { Content } = Layout;
 
 function App() {
+    const [collapsed, setCollapsed] = useState(false);
+
   return (
     <BrowserRouter>
       <Layout>
-        <Sidebar />
+        <Sidebar 
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+        />
 
-        <Layout style={{ marginLeft: 250, minHeight: "100vh" }}>
-          <AppHeader />
+    <Layout
+          style={{
+            marginLeft: collapsed ? 80 : 250,
+            minHeight: "100vh",
+            transition: "0.3s",
+          }}
+        >          <AppHeader />
 
           <Content
             style={{

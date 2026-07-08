@@ -1,3 +1,4 @@
+import "../App.css";
 import { Card, Col, Row, Statistic, Table, Tag } from "antd";
 import {
   UserOutlined,
@@ -19,7 +20,9 @@ const columns = [
     title: "Status",
     dataIndex: "status",
     render: (status: string) => (
-      <Tag color={status === "Active" ? "green" : "red"}>{status}</Tag>
+      <Tag color={status === "Active" ? "green" : "red"}>
+        {status}
+      </Tag>
     ),
   },
 ];
@@ -48,11 +51,11 @@ const data = [
 const Dashboard = () => {
   return (
     <>
-      <h1 style={{ marginBottom: 30 }}>Dashboard</h1>
+      <h1 className="dashboard-title">Dashboard</h1>
 
-      <Row gutter={[20, 20]}>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
+      <Row gutter={[20, 20]} className="dashboard-cards">
+        <Col xs={24} sm={12} md={12} lg={6}>
+          <Card className="dashboard-card" hoverable>
             <Statistic
               title="Total Users"
               value={1260}
@@ -61,8 +64,8 @@ const Dashboard = () => {
           </Card>
         </Col>
 
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
+        <Col xs={24} sm={12} md={12} lg={6}>
+          <Card className="dashboard-card" hoverable>
             <Statistic
               title="Orders"
               value={875}
@@ -71,8 +74,8 @@ const Dashboard = () => {
           </Card>
         </Col>
 
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
+        <Col xs={24} sm={12} md={12} lg={6}>
+          <Card className="dashboard-card" hoverable>
             <Statistic
               title="Revenue"
               value={24500}
@@ -81,8 +84,8 @@ const Dashboard = () => {
           </Card>
         </Col>
 
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
+        <Col xs={24} sm={12} md={12} lg={6}>
+          <Card className="dashboard-card" hoverable>
             <Statistic
               title="Growth"
               value={18}
@@ -93,13 +96,14 @@ const Dashboard = () => {
         </Col>
       </Row>
 
-      <Row gutter={[20, 20]} style={{ marginTop: 25 }}>
+      <Row gutter={[20, 20]} className="table-section">
         <Col span={24}>
-          <Card title="Recent Customers">
+          <Card className="table-card" title="Recent Customers">
             <Table
               columns={columns}
               dataSource={data}
               pagination={false}
+              scroll={{ x: 600 }}
             />
           </Card>
         </Col>

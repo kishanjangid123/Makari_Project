@@ -11,6 +11,11 @@ import type { MenuProps } from "antd";
 
 const { Sider } = Layout;
 
+interface SidebarProps {
+  collapsed: boolean;
+  setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const menuItems: MenuProps["items"] = [
   {
     key: "/",
@@ -34,34 +39,42 @@ const menuItems: MenuProps["items"] = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({
+  collapsed,
+  setCollapsed,
+}: SidebarProps) => {
   const location = useLocation();
 
   return (
     <Sider
       width={250}
-      breakpoint="lg"
       collapsedWidth={80}
+      collapsible
+      collapsed={collapsed}
+      breakpoint="lg"
+      onCollapse={(value) => setCollapsed(value)}
+      trigger={null}
       style={{
         height: "100vh",
         position: "fixed",
         left: 0,
         top: 0,
         bottom: 0,
+        overflow: "auto",
       }}
     >
       <div
         style={{
           height: 64,
           display: "flex",
-          alignItems: "center",
           justifyContent: "center",
+          alignItems: "center",
           color: "#fff",
-          fontSize: 22,
-          fontWeight: 700,
+          fontSize: collapsed ? 18 : 22,
+          fontWeight: "bold",
         }}
       >
-        Makari
+        {collapsed ? "M" : "Makari"}
       </div>
 
       <Menu

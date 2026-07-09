@@ -1,11 +1,34 @@
-import React, { useState } from 'react'
-import CustomButton from '../components/CustomButton'
-import WorkspaceCard from '../components/WorkspaceCard'
-import InputField from '../components/InputField';
-import { Col, Row } from 'antd';
+import React, { useState } from "react";
+import { Col, Row } from "antd";
+import { useSearchParams } from "react-router-dom";
+
+import CustomButton from "../components/CustomButton";
+import WorkspaceCard from "../components/WorkspaceCard";
+import InputField from "../components/InputField";
 
 const Reports = () => {
-  const [search, setSearch] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [search, setSearch] = useState(
+    searchParams.get("search") || ""
+  );
+
+  const handleSearchChange = (e: any) => {
+    const value = e.target.value;
+    setSearch(value);
+    if (value) {
+      setSearchParams({ search: value });
+    } else {
+      setSearchParams({});
+    }
+  }
+
+
+  React.useEffect(() => {
+    setSearch(searchParams.get("search") || "");
+  }, [searchParams])
+
+  console.log(search)
 
   return (
     <>
@@ -15,7 +38,7 @@ const Reports = () => {
         label="Search Report"
         placeholder="Search..."
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={handleSearchChange}
       />
 
       <Row>
@@ -24,8 +47,8 @@ const Reports = () => {
             title="Sales Report"
             description="Monthly sales report"
             buttonText="View"
-            onButtonClick={() => { alert('Sales Report Clicked') }}
-            type='primary'
+            onButtonClick={() => alert("Sales Report Clicked")}
+            type="primary"
           />
         </Col>
 
@@ -34,15 +57,13 @@ const Reports = () => {
             title="Employee Report"
             description="Employee performance"
             buttonText="Open"
-            onButtonClick={() => { alert('Employee Report Clicked') }}
-            type='primary'
+            onButtonClick={() => alert("Employee Report Clicked")}
+            type="primary"
           />
         </Col>
       </Row>
-
-
     </>
-  )
-}
+  );
+};
 
-export default Reports
+export default Reports;

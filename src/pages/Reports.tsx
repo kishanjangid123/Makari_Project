@@ -5,9 +5,13 @@ import { useSearchParams } from "react-router-dom";
 import CustomButton from "../components/CustomButton";
 import WorkspaceCard from "../components/WorkspaceCard";
 import InputField from "../components/InputField";
+import { useDispatch, useSelector } from "react-redux";
+import { resetUser, updateUser } from "../Redux/reportSlice";
 
 const Reports = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useDispatch();
+  const user = useSelector((state: any) => state.report.user);
 
   const [search, setSearch] = useState(
     searchParams.get("search") || ""
@@ -29,6 +33,8 @@ const Reports = () => {
   }, [searchParams])
 
   console.log(search)
+
+  console.log(user)
 
   return (
     <>
@@ -52,6 +58,9 @@ const Reports = () => {
           />
         </Col>
 
+
+
+
         <Col span={8}>
           <WorkspaceCard
             title="Employee Report"
@@ -61,6 +70,19 @@ const Reports = () => {
             type="primary"
           />
         </Col>
+
+        <Col span={8}>
+          <WorkspaceCard
+            title="User Details"
+            description={`User: ${user.name}, Role: ${user.role}, Email: ${user.email}`}
+            buttonText="Show user Details"
+            onButtonClick={() => user.name === "Kishan"
+              ? dispatch(updateUser())
+              : dispatch(resetUser())}
+            type="primary"
+          />
+        </Col>
+
       </Row>
     </>
   );

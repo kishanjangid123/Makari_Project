@@ -1,4 +1,3 @@
-import "../App.css";
 import { Card, Col, Row, Statistic, Table, Tag } from "antd";
 import {
   UserOutlined,
@@ -52,7 +51,6 @@ const Dashboard = () => {
   return (
     <>
       <h1 className="dashboard-title">Dashboard</h1>
-
       <Row gutter={[20, 20]} className="dashboard-cards">
         <Col xs={24} sm={12} md={12} lg={6}>
           <Card className="dashboard-card" hoverable>

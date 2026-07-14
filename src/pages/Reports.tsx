@@ -75,7 +75,7 @@ const Reports = () => {
           <WorkspaceCard
             title="User Details"
             description={`User: ${user.name}, Role: ${user.role}, Email: ${user.email}`}
-            buttonText="Show user Details"
+            buttonText={user.name === "Kishan" ? "Update User" : "Reset User"}
             onButtonClick={() => user.name === "Kishan"
               ? dispatch(updateUser())
               : dispatch(resetUser())}

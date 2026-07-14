@@ -1,63 +1,82 @@
-import React, { useState } from 'react'
-import axiosInstance from '../services/Axios';
-import { Table } from "antd";
+import React, { useEffect, useState } from "react";
+import axiosInstance from "../services/Axios";
+import { Table, Input, message } from "antd";
 
 const User = () => {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  React.useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axiosInstance.get("/api/users");
-        setUsers(response.data.data);
-        console.log(response)
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
 
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [debouncedSearch]);
 
+  const fetchUsers = async () => {
+    setLoading(true);
+
+    try {
+      const response = await axiosInstance.get("/api/users", {
+        params: {
+          search: debouncedSearch,
+        },
+      });
+
+      setUsers(response.data.data);
+    } catch (error) {
+      message.error("Failed to load users");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const columns = [
     {
       title: "ID",
       dataIndex: "id",
-      key: "id",
     },
     {
       title: "Name",
       dataIndex: "name",
-      key: "name",
     },
     {
       title: "Email",
       dataIndex: "email",
-      key: "email",
     },
     {
       title: "Role",
       dataIndex: "role",
-      key: "role",
     },
     {
       title: "Department",
       dataIndex: "department",
-      key: "department",
     },
     {
       title: "Location",
       dataIndex: "location",
-      key: "location",
     },
   ];
+
   return (
     <div>
       <h3>Users</h3>
+
+      <Input
+        placeholder="Search user..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{ width: 300, marginBottom: 20 }}
+      />
+
       <Table
         columns={columns}
         dataSource={users}
@@ -66,7 +85,7 @@ const User = () => {
         pagination={false}
       />
     </div>
-  )
-}
+  );
+};
 
-export default User
+export default User;
